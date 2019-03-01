@@ -19,7 +19,11 @@ class ProjectsController extends Controller
     }
 
     public function show(Project $project) {
-        return $project;
+        // dd($project);
+        $data = array();
+        $data['project'] = Project::Where('id' , $project->id)->with('tasks')->first();
+        
+        return view('projects.show', $data);
     }
 
     public function edit(Project $project) {
