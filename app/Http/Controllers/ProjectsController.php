@@ -7,9 +7,14 @@ use Illuminate\Filesystem\Filesystem;
 use App\Project;
 
 use App\Services\Twitter;
+// use App\User;
+
 
 class ProjectsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     public function index() {
 
         $projects = Project::where('user_id', auth()->id())->get();
@@ -21,7 +26,7 @@ class ProjectsController extends Controller
         return view('projects.create');
     }
 
-    public function show(Filesystem $file, Twitter $twitter) {
+    public function show(Project $project, Twitter $twitter) {
         // dd($project);
         // $data = array();
         // $data['project'] = Project::Where('id' , $project->id)->with('tasks')->first();
@@ -29,7 +34,13 @@ class ProjectsController extends Controller
         // return view('projects.show', $data);
         // $twitter = app('twitter');
         // dd($twitter);
-        $filesystem = app('Illuminate\Filesystem\Filesystem');
+        // $filesystem = app('Illuminate\Filesystem\Filesystem');
+        $this->authorize('view', $project);
+
+        // abort_if(! auth()->user()->owns($project));
+
+        // abort_if($project->user_id !== auth()->id(), 403);
+        
         return view('projects.show', compact('project'));
 
         // dd($file);
@@ -43,6 +54,8 @@ class ProjectsController extends Controller
         // $project->title = request('title');
         // $project->description = request('description');
         // $project->save();
+        $this->authorize('update', $project);
+
         $project->update(request(['title', 'description']));
         return redirect('/projects');
         // dd(request()->all());
@@ -67,7 +80,7 @@ class ProjectsController extends Controller
             'description' => 'required'
         ]);
 
-        Project::create($attributs);
+        Project::create($attributs + ['user_id' => auth()->id()]);
         return redirect('/projects');
     }
 }
