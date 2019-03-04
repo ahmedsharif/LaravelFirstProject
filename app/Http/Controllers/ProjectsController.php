@@ -11,7 +11,8 @@ use App\Services\Twitter;
 class ProjectsController extends Controller
 {
     public function index() {
-        $projects = Project::all();
+
+        $projects = Project::where('user_id', auth()->id())->get();
     
         return view('projects.index', compact('projects'));
     }
@@ -27,11 +28,11 @@ class ProjectsController extends Controller
         
         // return view('projects.show', $data);
         // $twitter = app('twitter');
-        dd($twitter);
+        // dd($twitter);
         $filesystem = app('Illuminate\Filesystem\Filesystem');
         return view('projects.show', compact('project'));
 
-        dd($file);
+        // dd($file);
     }
 
     public function edit(Project $project) {

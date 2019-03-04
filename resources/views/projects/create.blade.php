@@ -19,7 +19,7 @@
                 <button type="submit"> Create Project </button>
             </div>
 
-          @include ('errors')
+          {{--  @include ('errors')  --}}
         </form>
     </body>
 </html>

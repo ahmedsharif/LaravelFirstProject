@@ -4,7 +4,7 @@ use Illuminate\Filesystem\Filesystem;
 use App\Services\Twitter;
 
 /*
-|--------------------------------------------------------------------------
+|-----------------------    ---------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -23,9 +23,9 @@ use App\Repositories\UserRepository;
 // });
 
 
-Route::get('/', function (UserRepository $users) {
-    // dd(app('foo'));
-    dd($users);
+Route::get('/', function (Twitter $twitter) {
+    // dd($twitter);
+    // dd($users);
     return view('welcome');
 });
 
@@ -44,3 +44,6 @@ Route::resource('projects', 'ProjectsController');
 
 Route::post('/projects/{project}/tasks/', 'ProjectTasksController@store');
 Route::patch('/tasks/{task}', 'ProjectTasksController@update');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
