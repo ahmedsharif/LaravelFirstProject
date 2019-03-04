@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Filesystem\Filesystem;
 use App\Project;
+
+use App\Services\Twitter;
 
 class ProjectsController extends Controller
 {
@@ -18,12 +20,18 @@ class ProjectsController extends Controller
         return view('projects.create');
     }
 
-    public function show(Project $project) {
+    public function show(Filesystem $file, Twitter $twitter) {
         // dd($project);
-        $data = array();
-        $data['project'] = Project::Where('id' , $project->id)->with('tasks')->first();
+        // $data = array();
+        // $data['project'] = Project::Where('id' , $project->id)->with('tasks')->first();
         
-        return view('projects.show', $data);
+        // return view('projects.show', $data);
+        // $twitter = app('twitter');
+        dd($twitter);
+        $filesystem = app('Illuminate\Filesystem\Filesystem');
+        return view('projects.show', compact('project'));
+
+        dd($file);
     }
 
     public function edit(Project $project) {
@@ -49,7 +57,7 @@ class ProjectsController extends Controller
 
     public function store() {
         // Project::create([
-        //     'title' => request('title'),
+        //     'title' => request('title'), 
         //     'description' => request('description')
         // ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Filesystem\Filesystem;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +13,14 @@
 |
 */
 
+app()->singleton('App\Services\Twitter', function () {
+    return new \App\Services\Twitter('sdjfisodfj oiejr weiorjwe o');
+
+});
+
+
 Route::get('/', function () {
+    dd(app('App\Example'));
     return view('welcome');
 });
 
