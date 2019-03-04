@@ -9,6 +9,6 @@ class Twitter {
     public function __construct($apikey) {
         $this->apikey = $apikey;
     }
-}
+} 
 
 ?>
